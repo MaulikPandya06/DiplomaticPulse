@@ -23,7 +23,7 @@ services:
   dejavu:
     image: appbaseio/dejavu
     ports:
-      - "1358:1358"
+      - "80:1358"
     environment:
       ELASTICSEARCH_HOSTS: http://es:9200
 
