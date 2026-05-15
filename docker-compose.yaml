@@ -14,7 +14,6 @@ services:
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms256m -Xmx256m
-      - ELASTICSEARCH_HOSTS=http://es:9200
 
     volumes:
       - ./es_data:/usr/share/elasticsearch/data
@@ -25,6 +24,8 @@ services:
     image: appbaseio/dejavu
     ports:
       - "1358:1358"
+    environment:
+      ELASTICSEARCH_HOSTS: http://es:9200
 
   scrapyd:
     build: .
