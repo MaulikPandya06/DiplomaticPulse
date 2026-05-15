@@ -2,18 +2,21 @@ version: "3.5"
 
 volumes:
   scrapyd_logs: {}
-   
+
 services:
   es:
-    build: ./ES
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
+    container_name: es
+    entrypoint: /bin/tini -- /usr/local/bin/docker-entrypoint.sh  # use built-in
     ports:
       - "9200:9200"
       - "9300:9300"
     environment:
       - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
 
     volumes:
-#      - ./es_data:/usr/share/elasticsearch/data
+      - ./es_data:/usr/share/elasticsearch/data
       - ./ES/config/init_indices:/usr/share/elasticsearch/config/init_indices
       - ./ES/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
       - ./ES/config/setup.sh:/usr/share/elasticsearch/config/setup.sh
@@ -58,5 +61,5 @@ services:
     env_file:
       - .env
 
-volumes:
-        scrapyd_logs:
+# volumes:
+#         scrapyd_logs:

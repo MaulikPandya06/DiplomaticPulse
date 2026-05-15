@@ -12,7 +12,7 @@ dbs/
 __pycache__
 *.png
 *.log
-test_env_variables.sh   
+test_env_variables.sh
 proxy.py
 build/
 dist/
@@ -25,3 +25,6 @@ run_scrapyd_local.sh
 test-reports/
 env_variables.sh
 .black8
+es_data/*
+__pycache__/
+*.py[cod]

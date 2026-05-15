@@ -15,22 +15,19 @@ class DuplicatesPipeline:
         self.es = None
 
     @classmethod
-    def from_crawler(self, crawler):
+    def from_crawler(cls, crawler):
         """from crawler"""
-        self.es = self.init_es_client(crawler.settings)
+        instance = cls()
+        instance.es = instance.init_es_client(crawler.settings)
+        return instance
 
-    @classmethod
     def init_es_client(self, crawler_settings):
         """
-        This methods creates  elasticsearch connection.
-
-        Returns
-            elasticsearch connection
-
+        This methods creates elasticsearch connection.
         """
         es_timeout = crawler_settings.get("ELASTIC_TIMEOUT")
         es_servers = crawler_settings.get("ELASTIC_HOST")
-        logging.info(" the elasticsearch host is  %s " , es_servers)
+        logging.info(" the elasticsearch host is  %s ", es_servers)
         es_servers = es_servers if isinstance(es_servers, list) else [es_servers]
         es_settings = {}
         es_settings["hosts"] = es_servers
@@ -43,12 +40,11 @@ class DuplicatesPipeline:
         es = Elasticsearch(**es_settings)
         if es.ping() is False:
             raise CloseSpider(
-                "spider failed to connect  to elasticsearch on server"
+                "spider failed to connect to elasticsearch on server"
             )
-        logging.debug("eleasticsearch server %s  is up running  !!" , es_servers)
+        logging.debug("elasticsearch server %s is up running !!", es_servers)
         return es
 
-    @classmethod
     def process_item(self, item, spider):
         """process an item"""
         try:
